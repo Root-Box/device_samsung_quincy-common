@@ -141,11 +141,11 @@ on post-fs-data
     chown system media_rw /sys/class/mdnie/mdnie/outdoor
     chown media system /sys/devices/virtual/jack/jack_reselector/reselect_jack
     
-    chown radio system /sys/devices/virtual/misc/melfas_touchkey/touch_sensitivity
-    chown radio system /sys/devices/virtual/misc/melfas_touchkey/enable_disable
-    chown radio system /sys/devices/virtual/misc/melfas_touchkey/touch_update
-    chown radio system /sys/devices/virtual/misc/melfas_touchkey/touch_version
-    chown radio system /sys/devices/virtual/misc/melfas_touchkey/brightness
+    chown radio system /sys/devices/virtual/misc/sec_touchkey/touch_sensitivity
+    chown radio system /sys/devices/virtual/misc/sec_touchkey/enable_disable
+    chown radio system /sys/devices/virtual/misc/sec_touchkey/touch_update
+    chown radio system /sys/devices/virtual/misc/sec_touchkey/touch_version
+    chown radio system /sys/devices/virtual/misc/sec_touchkey/brightness
     chown radio system /sys/devices/virtual/sec/sec_touchkey/touchkey_firm_version_panel
     chown radio system /sys/devices/virtual/sec/sec_touchkey/touchkey_firm_version_phone
     chown radio system /sys/devices/virtual/sec/sec_touchkey/touchkey_firm_update_status
@@ -373,10 +373,14 @@ service mpdecision /system/bin/mpdecision --no_sleep --avg_comp
     user root
     disabled
 
-#service thermald /system/bin/thermald
-#    class main
-#    user root
-#    group root
+service thermald /system/bin/thermald
+    class main
+    user root
+    group root
+    disabled
+
+on property.ro.modem.links.done=1
+    start thermald
 
 # qrngd will drop permissions after startup
 service qrngd /system/bin/qrngd -f
